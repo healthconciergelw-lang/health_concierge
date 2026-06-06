@@ -6,45 +6,175 @@
   <meta name="description" content="Health Concierge — non-medical wellness coaching tracker for concierge health coaches." />
   <title>Health Concierge</title>
 
-  <!-- Design tokens must load first so all subsequent sheets can use them -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="styles/tokens.css" />
   <link rel="stylesheet" href="styles/base.css" />
   <link rel="stylesheet" href="styles/components.css" />
   <link rel="stylesheet" href="styles/layout.css" />
 
-  <!-- Chart.js 4.x via CDN (only external dependency) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       PERSISTENT TOP NAVIGATION
-       Visible on every screen without any user interaction (Req 1.1)
-  ═══════════════════════════════════════════════════════════════ -->
-  <nav id="main-nav" aria-label="Main navigation">
-    <div class="nav-brand">
-      <span class="nav-brand-name">Health Concierge</span>
+  <!-- ═══ PAGE TOPBAR ═══════════════════════════════════════════════════════ -->
+  <header id="page-topbar" aria-label="Page topbar">
+    <div class="topbar-left">
+      <!-- Mobile brand (hidden on desktop) -->
+      <div class="topbar-mobile-brand">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <path d="M4 19C4 19 7 10 17 7C17 7 14 13 4 19Z" fill="#4a7c59"/>
+          <path d="M17 7C17 7 20 4 22 3C22 3 22 8 17 7Z" fill="#4a7c59" opacity="0.7"/>
+          <path d="M4 19L17 7" stroke="#4a7c59" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span>Health Concierge</span>
+      </div>
+      <!-- Desktop greeting / page title -->
+      <div class="topbar-desktop-content">
+        <div id="topbar-greeting-block" class="topbar-greeting-block" hidden>
+          <span id="topbar-greeting" class="topbar-greeting"></span>
+          <span id="topbar-date" class="topbar-date"></span>
+        </div>
+        <h1 id="topbar-title" class="topbar-page-title">Dashboard</h1>
+      </div>
     </div>
-    <ul class="nav-items" role="list">
-      <li><a href="#/dashboard"  class="nav-item" data-route="dashboard">Dashboard</a></li>
-      <li><a href="#/clients"    class="nav-item" data-route="clients">Clients</a></li>
-      <li><a href="#/goals"      class="nav-item" data-route="goals">Goals</a></li>
-      <li><a href="#/habits"     class="nav-item" data-route="habits">Habits</a></li>
-      <li><a href="#/mood"       class="nav-item" data-route="mood">Mood &amp; Energy</a></li>
-      <li><a href="#/follow-ups" class="nav-item" data-route="follow-ups">Follow-Ups</a></li>
-      <li><a href="#/settings"   class="nav-item" data-route="settings">Settings</a></li>
-    </ul>
+    <div class="topbar-right">
+      <button
+        id="mobile-menu-btn"
+        class="mobile-menu-btn"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="main-nav"
+      >
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+          <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══ NAV DRAWER OVERLAY (mobile) ══════════════════════════════════════ -->
+  <div id="nav-overlay" aria-hidden="true"></div>
+
+  <!-- ═══ SIDEBAR / MOBILE DRAWER NAV ══════════════════════════════════════ -->
+  <nav id="main-nav" aria-label="Main navigation">
+
+    <div class="nav-brand">
+      <div class="nav-brand-icon" aria-hidden="true">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M4 21C4 21 7.5 11 19 7C19 7 16 14 4 21Z" fill="#4a7c59"/>
+          <path d="M19 7C19 7 22 4 24 3C24 3 24 9 19 7Z" fill="#4a7c59" opacity="0.7"/>
+          <path d="M4 21L19 7" stroke="#4a7c59" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="nav-brand-text">
+        <span class="nav-brand-name">Health Concierge</span>
+        <span class="nav-brand-tagline">Care Clarity. Client First.</span>
+      </div>
+    </div>
+
+    <div class="nav-body">
+      <div class="nav-section">
+        <span class="nav-section-label">MAIN</span>
+        <ul class="nav-items" role="list">
+          <li>
+            <a href="#/dashboard" class="nav-item" data-route="dashboard">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+                <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+                <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+                <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+              </svg>
+              Dashboard
+            </a>
+          </li>
+          <li>
+            <a href="#/clients" class="nav-item" data-route="clients">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="6" cy="5" r="2.5" fill="currentColor"/>
+                <path d="M1 13.5c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+                <circle cx="12.5" cy="5" r="2" fill="currentColor" opacity="0.55"/>
+                <path d="M12 13c.5-1.5 1.5-2.5 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.55"/>
+              </svg>
+              Clients
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <span class="nav-section-label">TRACKING</span>
+        <ul class="nav-items" role="list">
+          <li>
+            <a href="#/goals" class="nav-item" data-route="goals">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="8" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+              </svg>
+              Goals
+            </a>
+          </li>
+          <li>
+            <a href="#/habits" class="nav-item" data-route="habits">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <rect x="1.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="9.5" y="1.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="1.5" y="9.5" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M10 12l1.5 1.5L15 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Habits
+            </a>
+          </li>
+          <li>
+            <a href="#/mood" class="nav-item" data-route="mood">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M1 8h2l2-5 2.5 9 2-6 1.5 4H15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              Mood &amp; Energy
+            </a>
+          </li>
+          <li>
+            <a href="#/follow-ups" class="nav-item" data-route="follow-ups">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M14 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h2v2.8L7.2 10.5H14a.5.5 0 00.5-.5V2a.5.5 0 00-.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              </svg>
+              Follow-Ups
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-section">
+        <span class="nav-section-label">SYSTEM</span>
+        <ul class="nav-items" role="list">
+          <li>
+            <a href="#/settings" class="nav-item" data-route="settings">
+              <svg class="nav-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="8" cy="8" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M8 1.5V3M8 13v1.5M1.5 8H3M13 8h1.5M3.2 3.2l1.1 1.1M11.7 11.7l1.1 1.1M3.2 12.8l1.1-1.1M11.7 4.3l1.1-1.1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+              Settings
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <div class="nav-footer-user">
+        <div class="nav-footer-avatar" aria-hidden="true">HL</div>
+        <div class="nav-footer-info">
+          <span class="nav-footer-name">Health Liaison</span>
+          <span class="nav-footer-version">v1.0 Demo</span>
+        </div>
+      </div>
+    </div>
   </nav>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       SCOPE DISCLAIMER (Req 1.2, 1.3)
-       Permanently visible without user interaction.
-       All four required elements are present:
-         (a) no diagnosis
-         (b) no treatment / prescribing
-         (c) medical decisions remain with licensed provider
-         (d) not a replacement for licensed healthcare providers
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══ SCOPE DISCLAIMER ════════════════════════════════════════════════ -->
   <aside id="scope-disclaimer" role="note" aria-label="Non-medical scope disclaimer">
     <p class="disclaimer-text">
       <strong>Non-Medical Tool:</strong>
@@ -55,39 +185,182 @@
     </p>
   </aside>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       MAIN CONTENT AREA — modules render here
-  ═══════════════════════════════════════════════════════════════ -->
-  <main id="app-root" aria-live="off" tabindex="-1">
-    <!-- Module content is injected here by the router -->
-  </main>
+  <!-- ═══ MAIN CONTENT AREA ════════════════════════════════════════════════ -->
+  <main id="app-root" aria-live="off" tabindex="-1"></main>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       MODAL ROOT — dialogs rendered above everything (position: fixed)
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══ MODAL ROOT ════════════════════════════════════════════════════════ -->
   <div id="modal-root" aria-hidden="true"></div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       LOADING INDICATOR — shown after 200 ms of pending load (Req 2.4)
-       Hidden by default via display: none in components.css
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══ LOADING INDICATOR ════════════════════════════════════════════════ -->
   <div id="loading-indicator" role="progressbar" aria-label="Loading" aria-hidden="true">
     <div class="loading-spinner" aria-hidden="true"></div>
     <span class="loading-text">Loading…</span>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       ARIA LIVE REGIONS
-       polite   → success confirmations, info toasts (Req 18.4, 18.6)
-       assertive → errors, destructive confirmations (Req 18.4)
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══ ARIA LIVE REGIONS ════════════════════════════════════════════════ -->
   <div id="live-polite"    role="status" aria-live="polite"    aria-atomic="true" class="sr-only"></div>
   <div id="live-assertive" role="alert"  aria-live="assertive" aria-atomic="true" class="sr-only"></div>
 
-  <!-- ═══════════════════════════════════════════════════════════════
-       TOAST CONTAINER — non-blocking notifications
-  ═══════════════════════════════════════════════════════════════ -->
+  <!-- ═══ TOAST CONTAINER ══════════════════════════════════════════════════ -->
   <div id="toast-container" aria-hidden="true"></div>
+
+  <!-- ═══ MOBILE BOTTOM TAB BAR ════════════════════════════════════════════ -->
+  <nav id="bottom-tab-bar" aria-label="Mobile bottom navigation">
+    <a href="#/dashboard" class="tab-item" data-route="dashboard" aria-label="Dashboard">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+        <rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor"/>
+        <rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+        <rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor"/>
+      </svg>
+      <span>Home</span>
+    </a>
+    <a href="#/clients" class="tab-item" data-route="clients" aria-label="Clients">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="6" cy="5" r="2.5" fill="currentColor"/>
+        <path d="M1 13.5c0-2.5 2.2-4.5 5-4.5s5 2 5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+        <circle cx="12.5" cy="5" r="2" fill="currentColor" opacity="0.55"/>
+      </svg>
+      <span>Clients</span>
+    </a>
+    <a href="#/goals" class="tab-item" data-route="goals" aria-label="Goals">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="4" stroke="currentColor" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>Goals</span>
+    </a>
+    <a href="#/follow-ups" class="tab-item" data-route="follow-ups" aria-label="Follow-Ups">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M14 1.5H2a.5.5 0 00-.5.5v8a.5.5 0 00.5.5h2v2.8L7.2 10.5H14a.5.5 0 00.5-.5V2a.5.5 0 00-.5-.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+      </svg>
+      <span>Notes</span>
+    </a>
+    <button class="tab-item tab-more" id="tab-more-btn" aria-label="More navigation options">
+      <svg width="20" height="20" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <circle cx="3" cy="8" r="1.5" fill="currentColor"/>
+        <circle cx="8" cy="8" r="1.5" fill="currentColor"/>
+        <circle cx="13" cy="8" r="1.5" fill="currentColor"/>
+      </svg>
+      <span>More</span>
+    </button>
+  </nav>
+
+  <!-- ═══ UI BEHAVIOR SCRIPT ═══════════════════════════════════════════════ -->
+  <script>
+    (function() {
+      var PAGE_TITLES = {
+        'dashboard':  'Dashboard',
+        'clients':    'Clients',
+        'goals':      'Goals',
+        'habits':     'Habits',
+        'mood':       'Mood & Energy',
+        'follow-ups': 'Follow-Ups',
+        'settings':   'Settings',
+      };
+
+      function getGreeting() {
+        var h = new Date().getHours();
+        if (h >= 5  && h < 12) return 'Good morning';
+        if (h >= 12 && h < 17) return 'Good afternoon';
+        if (h >= 17 && h < 21) return 'Good evening';
+        return 'Working late';
+      }
+
+      function formatTodayDate() {
+        return new Date().toLocaleDateString('en-US', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
+      }
+
+      function getRoute() {
+        var hash = window.location.hash.replace(/^#\//, '').split('/')[0];
+        return hash || 'dashboard';
+      }
+
+      function updateTopbar() {
+        var route = getRoute();
+
+        var titleEl = document.getElementById('topbar-title');
+        if (titleEl) {
+          var title = PAGE_TITLES[route] || route;
+          if (route.includes('clients') && window.location.hash.split('/').length > 2) {
+            title = 'Client Profile';
+          }
+          titleEl.textContent = title;
+        }
+
+        var greetingBlock = document.getElementById('topbar-greeting-block');
+        var greetingEl    = document.getElementById('topbar-greeting');
+        var dateEl        = document.getElementById('topbar-date');
+        var isDashboard   = (route === 'dashboard' || route === '');
+        if (greetingBlock) {
+          greetingBlock.hidden = !isDashboard;
+          if (isDashboard) {
+            if (greetingEl) greetingEl.textContent = getGreeting();
+            if (dateEl) dateEl.textContent = formatTodayDate();
+          }
+        }
+        if (titleEl) {
+          titleEl.hidden = isDashboard;
+        }
+
+        var tabItems = document.querySelectorAll('#bottom-tab-bar .tab-item[data-route]');
+        tabItems.forEach(function(item) {
+          item.classList.toggle('is-active', item.getAttribute('data-route') === route);
+        });
+      }
+
+      function openDrawer() {
+        var nav     = document.getElementById('main-nav');
+        var overlay = document.getElementById('nav-overlay');
+        var btn     = document.getElementById('mobile-menu-btn');
+        if (nav)     nav.classList.add('is-open');
+        if (overlay) overlay.classList.add('is-visible');
+        if (btn)     btn.setAttribute('aria-expanded', 'true');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeDrawer() {
+        var nav     = document.getElementById('main-nav');
+        var overlay = document.getElementById('nav-overlay');
+        var btn     = document.getElementById('mobile-menu-btn');
+        if (nav)     nav.classList.remove('is-open');
+        if (overlay) overlay.classList.remove('is-visible');
+        if (btn)     btn.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var menuBtn    = document.getElementById('mobile-menu-btn');
+        var overlay    = document.getElementById('nav-overlay');
+        var tabMoreBtn = document.getElementById('tab-more-btn');
+        var mainNav    = document.getElementById('main-nav');
+
+        if (menuBtn) menuBtn.addEventListener('click', openDrawer);
+        if (overlay) overlay.addEventListener('click', closeDrawer);
+        if (tabMoreBtn) tabMoreBtn.addEventListener('click', openDrawer);
+
+        if (mainNav) {
+          mainNav.addEventListener('click', function(e) {
+            if (e.target.closest('.nav-item') && window.innerWidth < 768) {
+              closeDrawer();
+            }
+          });
+        }
+
+        updateTopbar();
+      });
+
+      window.addEventListener('hashchange', function() {
+        updateTopbar();
+        if (window.innerWidth < 768) closeDrawer();
+      });
+
+      window.addEventListener('load', updateTopbar);
+    })();
+  </script>
 
   <!-- Application entry point (ES module) -->
   <script type="module" src="js/main.js"></script>

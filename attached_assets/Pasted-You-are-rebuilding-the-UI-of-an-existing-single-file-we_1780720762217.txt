@@ -1,0 +1,232 @@
+You are rebuilding the UI of an existing single-file web app called Health Concierge.
+
+Health Concierge is a private client management dashboard for a non-medical 
+healthcare liaison business. The liaison tracks client goals, habits, mood, 
+energy, weight progress, and follow-up notes. This app is used on both desktop 
+and mobile.
+
+YOUR ONLY JOB IS UI. Do not change any JavaScript data arrays, functions, 
+or application logic. Do not add or remove screens. Do not rename any variables. 
+Preserve every onclick handler and every id attribute exactly as-is. 
+Only rewrite the CSS and HTML structure/layout.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+BRAND & IDENTITY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+App name: Health Concierge
+Show "Health Concierge" in the sidebar logo, the browser tab title, 
+and the topbar on mobile.
+Tagline (optional, small): "Care Clarity. Client First."
+Logo mark: a simple leaf or heart icon in sage green.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COLOR PALETTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sidebar background:       #0f172a  (deep navy)
+Sidebar text:             #94a3b8  (muted slate)
+Sidebar active item bg:   #1e293b
+Sidebar active text:      #ffffff
+Sidebar active accent:    #4a7c59  (sage green)
+Main background:          #f8fafc  (near white)
+Card background:          #ffffff
+Primary accent:           #4a7c59  (sage green)
+Primary accent hover:     #3a6147
+Secondary accent:         #2e8b77  (teal)
+Text primary:             #0f172a
+Text secondary:           #475569
+Text muted:               #94a3b8
+Border:                   #e2e8f0
+Badge — active:           bg #dcfce7, text #166534
+Badge — in progress:      bg #dbeafe, text #1d4ed8
+Badge — complete:         bg #f0fdf4, text #15803d
+Badge — not started:      bg #f1f5f9, text #64748b
+Badge — high priority:    bg #fef3c7, text #92400e
+Badge — medium priority:  bg #dbeafe, text #1e40af
+Badge — low priority:     bg #dcfce7, text #166534
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TYPOGRAPHY
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Import from Google Fonts: Inter (weights 400, 500, 600, 700)
+Base font: Inter, sans-serif
+Page titles: 22px, weight 700, color #0f172a
+Card titles: 14px, weight 600
+Labels/caps: 11px, weight 600, uppercase, letter-spacing 0.06em, color #94a3b8
+Body text: 13.5px, weight 400
+Stat values: 28px, weight 700
+Muted values: color #94a3b8
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+DESKTOP LAYOUT (viewport 1024px and above)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Fixed sidebar: 240px wide, full height, dark navy
+Main content area: margin-left 240px, scrollable
+Topbar: fixed at top of main area, white, subtle border-bottom, 
+        shows page title and action buttons
+Content area padding: 24px 32px
+
+Sidebar structure (top to bottom):
+  - Brand block: logo icon + "Health Concierge" name + tagline
+  - Nav section label: "MAIN"
+  - Nav items: Dashboard, Clients
+  - Nav section label: "TRACKING"  
+  - Nav items: Goals, Habits, Mood & Energy, Follow-Ups
+  - Nav section label: "SYSTEM"
+  - Nav items: Settings
+  - Sidebar footer: liaison name placeholder + "v1.0 Demo"
+
+Nav item style:
+  - Icon (16px) + label side by side
+  - Padding: 10px 16px
+  - Border radius: 8px on the item itself (not a left border line)
+  - Active: background #1e293b, left border 3px solid #4a7c59, text white
+  - Hover: background #1e293b, text #cbd5e1
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+MOBILE LAYOUT (viewport below 768px)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Hide the sidebar completely on mobile.
+Show a fixed topbar: "Health Concierge" brand name on the left, 
+hamburger menu icon on the right.
+Tapping the hamburger slides in a full-height overlay nav drawer 
+from the left (same dark navy, same nav items).
+Drawer closes when a nav item is tapped or user taps outside it.
+Below the topbar: show a fixed bottom tab bar with 5 icons only:
+  Dashboard, Clients, Goals, Follow-Ups, More (opens drawer)
+Content area: full width, padding 16px, scrollable
+Stat grid: 2 columns on mobile
+Client cards: single column stack
+Tables: horizontally scrollable with overflow-x: auto wrapper
+Profile tabs: horizontally scrollable, no wrapping
+Two-column grids: collapse to single column
+Three-column grids: collapse to single column
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+COMPONENT STYLES
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CARDS
+  Background: #ffffff
+  Border: 1px solid #e2e8f0
+  Border radius: 14px
+  Box shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)
+  Padding: 20px 24px
+  Hover shadow (client cards only): 0 8px 24px rgba(0,0,0,0.08)
+  Entrance animation: fadeUp — translateY(12px) opacity 0 to normal, 
+                      0.3s ease, staggered 0.05s delay per card
+
+STAT CARDS
+  Top border: 3px solid (use accent color per card)
+  Stat value: 28px, bold
+  Stat label: 11px uppercase muted
+
+CLIENT CARDS
+  Left border: 4px solid #4a7c59 (not top border)
+  Avatar: 40px circle, gradient background linear-gradient(135deg, #4a7c59, #2e8b77),
+          white initials, font-weight 700
+  Progress bar: height 6px, background #e2e8f0, 
+                fill linear-gradient(90deg, #4a7c59, #2e8b77), border-radius 99px
+
+BUTTONS
+  Primary: background #4a7c59, color white, border-radius 8px, 
+           padding 8px 16px, font-weight 500, font-size 13px,
+           box-shadow 0 1px 3px rgba(74,124,89,0.4)
+           hover: background #3a6147
+  Secondary: background white, border 1px solid #e2e8f0, color #475569,
+             border-radius 8px, padding 8px 16px
+             hover: background #f8fafc
+
+BADGES
+  Border radius: 99px (full pill)
+  Padding: 3px 10px
+  Font size: 11px, weight 600
+  No border, only background + text color as defined above
+
+DATA TABLES
+  Header: background #f8fafc, font 11px uppercase muted, 
+          border-bottom 2px solid #e2e8f0
+  Rows: border-bottom 1px solid #f1f5f9
+  Row hover: background #f8fafc
+  Cell padding: 12px 14px
+  Wrap in overflow-x: auto on mobile
+
+MOOD/ENERGY SCORES
+  Show as: colored circle dot (8px) + bold score number + mini bar track
+  Color logic: score 8–10 = #4a7c59, score 6–7 = #3b82f6, 
+               score 4–5 = #f59e0b, score 1–3 = #ef4444
+
+PROGRESS BARS
+  Height: 8px
+  Background: #e2e8f0
+  Fill: linear-gradient(90deg, #4a7c59, #2e8b77)
+  Border radius: 99px
+
+HABIT DAY CIRCLES
+  Done: background #4a7c59, white checkmark, 24px circle
+  Missed: background #f1f5f9, muted color, 24px circle
+
+TIMELINE (follow-up notes)
+  Dot: 10px, #4a7c59
+  Line: 1px solid #e2e8f0
+  Card: white, border 1px solid #e2e8f0, border-radius 10px, padding 16px
+
+SEARCH BAR
+  Background white, border 1px solid #e2e8f0, border-radius 10px,
+  padding 10px 14px, full width
+  Focus: border-color #4a7c59, box-shadow 0 0 0 3px rgba(74,124,89,0.1)
+
+PROFILE HEADER
+  White card, border-radius 14px, padding 24px
+  Avatar: 56px, gradient circle
+  Progress bar below stats
+
+TAB BAR (profile tabs)
+  Border-bottom: 2px solid #e2e8f0
+  Active tab: border-bottom 2px solid #4a7c59, color #4a7c59, font-weight 600
+  Inactive: color #94a3b8
+  On mobile: overflow-x auto, no wrap, white-space nowrap
+
+INFO BANNER (mock edit notice)
+  Background #fefce8, border 1px solid #fde68a, 
+  border-radius 8px, color #92400e, font-size 12.5px
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TOPBAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Desktop: fixed, height 60px, white, border-bottom 1px solid #e2e8f0,
+         padding 0 32px, flex row, space-between
+         Left: page title (bold, 18px)
+         Right: action buttons
+Mobile:  fixed, height 56px, shows "Health Concierge" brand + hamburger icon
+         Background white, border-bottom 1px solid #e2e8f0
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+GREETING (dashboard topbar)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Use JavaScript to show:
+  5am–11:59am  → "Good morning"
+  12pm–4:59pm  → "Good afternoon"
+  5pm–8:59pm   → "Good evening"
+  9pm–4:59am   → "Working late"
+Show today's date beneath it in format: Saturday, June 7, 2026
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ANIMATIONS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+On page/screen load: cards fade up from translateY(12px), opacity 0 to 1
+Stagger delay: 0.05s per card
+Duration: 0.3s, ease-out
+Nav transitions: 0.15s color/background
+Hover transitions: 0.15s all
+Mobile drawer: slide in from left, 0.25s ease
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+FINAL REQUIREMENTS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- Deliver one complete self-contained HTML file
+- All CSS embedded in <style> tags
+- All JS embedded in <script> tags  
+- No external dependencies except Google Fonts
+- Preserve every existing id, onclick, and data structure exactly
+- Do not add backend, auth, or localStorage
+- App must work by opening the HTML file directly in a browser
+- Must look polished and professional on both iPhone and desktop Chrome
