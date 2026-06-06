@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Health Concierge — non-medical wellness coaching tracker for concierge health coaches." />
+  <title>Health Concierge</title>
+
+  <!-- Design tokens must load first so all subsequent sheets can use them -->
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/components.css" />
+  <link rel="stylesheet" href="styles/layout.css" />
+
+  <!-- Chart.js 4.x via CDN (only external dependency) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       PERSISTENT TOP NAVIGATION
+       Visible on every screen without any user interaction (Req 1.1)
+  ═══════════════════════════════════════════════════════════════ -->
+  <nav id="main-nav" aria-label="Main navigation">
+    <div class="nav-brand">
+      <span class="nav-brand-name">Health Concierge</span>
+    </div>
+    <ul class="nav-items" role="list">
+      <li><a href="#/dashboard"  class="nav-item" data-route="dashboard">Dashboard</a></li>
+      <li><a href="#/clients"    class="nav-item" data-route="clients">Clients</a></li>
+      <li><a href="#/goals"      class="nav-item" data-route="goals">Goals</a></li>
+      <li><a href="#/habits"     class="nav-item" data-route="habits">Habits</a></li>
+      <li><a href="#/mood"       class="nav-item" data-route="mood">Mood &amp; Energy</a></li>
+      <li><a href="#/follow-ups" class="nav-item" data-route="follow-ups">Follow-Ups</a></li>
+      <li><a href="#/settings"   class="nav-item" data-route="settings">Settings</a></li>
+    </ul>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       SCOPE DISCLAIMER (Req 1.2, 1.3)
+       Permanently visible without user interaction.
+       All four required elements are present:
+         (a) no diagnosis
+         (b) no treatment / prescribing
+         (c) medical decisions remain with licensed provider
+         (d) not a replacement for licensed healthcare providers
+  ═══════════════════════════════════════════════════════════════ -->
+  <aside id="scope-disclaimer" role="note" aria-label="Non-medical scope disclaimer">
+    <p class="disclaimer-text">
+      <strong>Non-Medical Tool:</strong>
+      Health Concierge does <strong>not</strong> provide medical diagnosis or clinical assessment.
+      It does <strong>not</strong> provide treatment recommendations or prescribing of any kind.
+      All medical decisions remain exclusively between the client and their licensed healthcare provider.
+      This tool is <strong>not</strong> a replacement for licensed healthcare providers.
+    </p>
+  </aside>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MAIN CONTENT AREA — modules render here
+  ═══════════════════════════════════════════════════════════════ -->
+  <main id="app-root" aria-live="off" tabindex="-1">
+    <!-- Module content is injected here by the router -->
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       MODAL ROOT — dialogs rendered above everything (position: fixed)
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="modal-root" aria-hidden="true"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       LOADING INDICATOR — shown after 200 ms of pending load (Req 2.4)
+       Hidden by default via display: none in components.css
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="loading-indicator" role="progressbar" aria-label="Loading" aria-hidden="true">
+    <div class="loading-spinner" aria-hidden="true"></div>
+    <span class="loading-text">Loading…</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       ARIA LIVE REGIONS
+       polite   → success confirmations, info toasts (Req 18.4, 18.6)
+       assertive → errors, destructive confirmations (Req 18.4)
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="live-polite"    role="status" aria-live="polite"    aria-atomic="true" class="sr-only"></div>
+  <div id="live-assertive" role="alert"  aria-live="assertive" aria-atomic="true" class="sr-only"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       TOAST CONTAINER — non-blocking notifications
+  ═══════════════════════════════════════════════════════════════ -->
+  <div id="toast-container" aria-hidden="true"></div>
+
+  <!-- Application entry point (ES module) -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
