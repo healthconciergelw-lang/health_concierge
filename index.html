@@ -177,12 +177,9 @@
   <!-- ═══ SCOPE DISCLAIMER ════════════════════════════════════════════════ -->
   <aside id="scope-disclaimer" role="note" aria-label="Non-medical scope disclaimer">
     <p class="disclaimer-text">
-      <strong>Non-Medical Tool:</strong>
-      Health Concierge does <strong>not</strong> provide medical diagnosis or clinical assessment.
-      It does <strong>not</strong> provide treatment recommendations or prescribing of any kind.
-      All medical decisions remain exclusively between the client and their licensed healthcare provider.
-      This tool is <strong>not</strong> a replacement for licensed healthcare providers.
+      <strong>Non-Medical Tool</strong> — not for diagnosis, treatment, or prescribing. All medical decisions remain with your licensed healthcare provider.
     </p>
+    <button id="disclaimer-toggle" aria-expanded="false" aria-controls="scope-disclaimer">More</button>
   </aside>
 
   <!-- ═══ MAIN CONTENT AREA ════════════════════════════════════════════════ -->
@@ -347,6 +344,17 @@
             if (e.target.closest('.nav-item') && window.innerWidth < 768) {
               closeDrawer();
             }
+          });
+        }
+
+        // Disclaimer toggle
+        var disclaimerToggle = document.getElementById('disclaimer-toggle');
+        var disclaimerEl     = document.getElementById('scope-disclaimer');
+        if (disclaimerToggle && disclaimerEl) {
+          disclaimerToggle.addEventListener('click', function() {
+            var expanded = disclaimerEl.classList.toggle('is-expanded');
+            disclaimerToggle.textContent = expanded ? 'Less' : 'More';
+            disclaimerToggle.setAttribute('aria-expanded', String(expanded));
           });
         }
 
