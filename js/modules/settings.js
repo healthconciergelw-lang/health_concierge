@@ -58,7 +58,8 @@ function _buildListHTML(key, items) {
           data-key="${_esc(key)}"
           data-value="${_esc(item)}"
           aria-label="Delete ${_esc(item)}"
-        >Delete</button>
+          style="flex-shrink:0;min-height:28px;padding:4px 10px;font-size:11px;"
+        >Remove</button>
       </li>`
     )
     .join('');
@@ -79,7 +80,7 @@ function _buildListSectionHTML(config, settings) {
 
   return `
     <section class="settings-card" data-list-key="${_esc(config.key)}">
-      <h2 class="settings-card-title">${_esc(config.label)}</h2>
+      <h3 class="settings-card-title">${_esc(config.label)}</h3>
       <div class="ref-list-container" id="ref-list-container-${_esc(config.key)}">
         ${listHTML}
       </div>
@@ -89,22 +90,28 @@ function _buildListSectionHTML(config, settings) {
           class="ref-list-input"
           id="ref-list-input-${_esc(config.key)}"
           data-key="${_esc(config.key)}"
-          placeholder="New item name…"
+          placeholder="Add new item…"
           maxlength="50"
           aria-label="New item name for ${_esc(config.label)}"
         >
         <button
           type="button"
-          class="btn btn-primary ref-list-add-btn"
+          class="btn btn-primary btn-sm ref-list-add-btn"
           data-key="${_esc(config.key)}"
           aria-label="Add item to ${_esc(config.label)}"
-        >Add</button>
+          style="flex-shrink:0;"
+        >
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          Add
+        </button>
         <span
           class="ref-list-inline-error field-error"
           id="ref-list-error-${_esc(config.key)}"
           role="alert"
           aria-live="assertive"
-          style="display:none;"
+          style="display:none;width:100%;margin-top:4px;"
         ></span>
       </div>
     </section>`;
@@ -174,11 +181,39 @@ export function render(root, params) {
   // 6. Set root.innerHTML with all sections
   root.innerHTML = `
     <div class="settings-page">
-      <h1 class="page-title">Settings</h1>
       <div class="settings-sections">
         ${listSectionsHTML}
-        ${exportSectionHTML}
-        ${importSectionHTML}
+        <section class="settings-card" id="settings-export-section">
+          <h3 class="settings-card-title">Export Data</h3>
+          <p class="settings-section-description">
+            Download all your data as a JSON backup file. You can re-import it on any device.
+          </p>
+          <button type="button" class="btn btn-primary" id="settings-export-btn">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 2v8m0 0L5 7m3 3l3-3M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Export Data
+          </button>
+        </section>
+        <section class="settings-card" id="settings-import-section">
+          <h3 class="settings-card-title">Import Data</h3>
+          <p class="settings-section-description">
+            Restore from a backup JSON file. <strong>Warning:</strong> this replaces all current data.
+          </p>
+          <label for="settings-import-file" class="btn btn-secondary" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px;">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M8 10V2m0 0L5 5m3-3l3 3M2 13h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Choose File
+          </label>
+          <input
+            type="file"
+            id="settings-import-file"
+            accept=".json"
+            style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;"
+            aria-label="Choose a JSON file to import"
+          >
+        </section>
       </div>
     </div>`;
 

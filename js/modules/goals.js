@@ -109,7 +109,19 @@ export function renderGoalsView(root, clientIdFilter) {
     {
       key:   'status',
       label: 'Goal Status',
-      render: (v) => v ? StatusBadge.render(v, 'Goal Status') : '',
+      render: (v, record) => {
+        if (!v) return '';
+        const badge = StatusBadge.render(v, 'Goal Status');
+        return `<button
+          type="button"
+          class="status-badge-btn goal-status-btn"
+          data-id="${_esc(record.id)}"
+          data-status="${_esc(v)}"
+          aria-label="Change goal status: currently ${_esc(v)}"
+          title="Click to change status"
+          style="position:relative;"
+        >${badge}<span class="status-chevron" aria-hidden="true">▾</span></button>`;
+      },
     },
     {
       key:   'completedDate',
@@ -185,6 +197,59 @@ export function renderGoalsView(root, clientIdFilter) {
   tableContainer.addEventListener('click', async (e) => {
     const editBtn   = e.target.closest('.goal-edit-btn');
     const deleteBtn = e.target.closest('.goal-delete-btn');
+    const statusBtn = e.target.closest('.goal-status-btn');
+
+    // ── Inline status change ──────────────────────────────────────────────
+    if (statusBtn) {
+      // Close any open popover first
+      document.querySelectorAll('.status-popover').forEach(p => p.remove());
+
+      const goalId      = statusBtn.dataset.id;
+      const currentStatus = statusBtn.dataset.status;
+      const goalStatusValues = store.get('settings').goalStatusValues
+        ?? ['Not Started', 'In Progress', 'Complete'];
+
+      const popover = document.createElement('div');
+      popover.className = 'status-popover';
+      popover.setAttribute('role', 'listbox');
+      popover.setAttribute('aria-label', 'Select goal status');
+
+      goalStatusValues.forEach(val => {
+        const opt = document.createElement('button');
+        opt.type = 'button';
+        opt.className = 'status-popover-option' + (val === currentStatus ? ' is-selected' : '');
+        opt.setAttribute('role', 'option');
+        opt.setAttribute('aria-selected', String(val === currentStatus));
+        opt.textContent = val;
+        opt.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          popover.remove();
+          if (val !== currentStatus) {
+            const goal = store.get('goals').find(g => g.id === goalId);
+            if (goal) {
+              db.saveGoal({ ...goal, status: val });
+              Toast.show(`Status updated to "${val}".`, 'success');
+              renderGoalsView(root, clientIdFilter);
+            }
+          }
+        });
+        popover.appendChild(opt);
+      });
+
+      // Position relative to button
+      statusBtn.style.position = 'relative';
+      statusBtn.appendChild(popover);
+
+      // Close on outside click
+      const closeHandler = (ev) => {
+        if (!statusBtn.contains(ev.target)) {
+          popover.remove();
+          document.removeEventListener('click', closeHandler, true);
+        }
+      };
+      setTimeout(() => document.addEventListener('click', closeHandler, true), 0);
+      return;
+    }
 
     if (editBtn) {
       const goalId = editBtn.dataset.id;

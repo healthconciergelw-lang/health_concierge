@@ -760,8 +760,9 @@ select.input.select {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  gap: var(--space-1);
   margin-top: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .ref-list-item {
@@ -769,22 +770,96 @@ select.input.select {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-3);
-  background: var(--color-neutral-50);
+  padding: 9px 12px;
+  background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-base);
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ref-list-item:hover {
+  background: var(--color-neutral-50);
+  box-shadow: var(--shadow-sm);
 }
 
 .ref-list-item-name {
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ref-list-empty {
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
   font-style: italic;
-  padding: var(--space-2) 0;
+  padding: var(--space-3) 0;
+  text-align: center;
+}
+
+/* Add-item row inside settings cards */
+.ref-list-add-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) 0 var(--space-1);
+  border-top: 1px solid var(--color-border-light);
+}
+
+.ref-list-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 6px 12px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  font-family: var(--font-family-base);
+  appearance: none;
+}
+
+.ref-list-input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.ref-list-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
+/* Settings card layout */
+.settings-card {
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5);
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-card-title {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-3);
+}
+
+.settings-section-description {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-base);
+  margin-bottom: var(--space-4);
 }
 
 /* ═══ MOOD / ENERGY SCORES ═══════════════════════════════════════════════ */
@@ -998,4 +1073,179 @@ select.input.select {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+}
+
+/* ═══ ROW ACTIONS — breathing room ══════════════════════════════════════ */
+.row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+/* Ensure action buttons in tables never crowd each other */
+.row-actions .btn {
+  flex-shrink: 0;
+}
+
+/* ═══ INLINE STATUS EDITOR ════════════════════════════════════════════════
+   Clicking a status badge in the Goals table opens a quick-select dropdown.
+══════════════════════════════════════════════════════════════════════════ */
+.status-badge-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  border-radius: var(--radius-pill);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  font-family: var(--font-family-base);
+}
+
+.status-badge-btn:hover {
+  opacity: 0.82;
+  transform: scale(1.03);
+}
+
+.status-badge-btn:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-pill);
+}
+
+/* Tiny chevron icon inside the badge */
+.status-badge-btn .status-chevron {
+  font-size: 9px;
+  opacity: 0.65;
+  line-height: 1;
+}
+
+/* Quick-edit popover */
+.status-popover {
+  position: absolute;
+  z-index: 200;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  min-width: 160px;
+  animation: fadeUp 0.15s ease-out both;
+}
+
+.status-popover-option {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 7px 10px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background: none;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: var(--font-family-base);
+  transition: background-color var(--transition-fast);
+}
+
+.status-popover-option:hover {
+  background: var(--color-neutral-100);
+}
+
+.status-popover-option.is-selected {
+  background: var(--color-primary-ring);
+  color: var(--color-primary);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ═══ SETTINGS PAGE GRID ══════════════════════════════════════════════════ */
+.settings-page {
+  animation: fadeUp 0.3s ease-out;
+}
+
+.settings-sections {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-5);
+}
+
+@media (min-width: 768px) {
+  .settings-sections {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  /* Export and import span full width */
+  #settings-export-section,
+  #settings-import-section {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 1024px) {
+  .settings-sections {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Export/import in a side-by-side pair */
+@media (min-width: 768px) {
+  .settings-data-section {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5);
+  }
+}
+
+/* ═══ FILTER BAR (unified) ════════════════════════════════════════════════ */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+
+.filter-bar .filter-select {
+  min-width: 130px;
+}
+
+/* ═══ SEARCH INPUT — premium styling ═════════════════════════════════════ */
+.search-bar input,
+.search-group input,
+.search-input {
+  width: 100%;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 9px 14px 9px 36px;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  appearance: none;
+  font-family: var(--font-family-base);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  background-size: 14px 14px;
+}
+
+.search-bar input:focus,
+.search-group input:focus,
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-ring);
+}
+
+/* ═══ ANIMATIONS ══════════════════════════════════════════════════════════ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
